@@ -1,4 +1,4 @@
-package com.example.cryptowatcher
+package com.nagygm.cryptowatcher
 
 import org.junit.Test
 
