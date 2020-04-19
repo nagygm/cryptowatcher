@@ -44,5 +44,5 @@ deploy:
 notifications:
   email:
     recipients:
-      - emailaddress@yourdomain.com
+      - nagygm17@gmail.com
     on_failure: always
