@@ -6,7 +6,7 @@ import com.nagygm.cryptowatcher.R
 import com.nagygm.cryptowatcher.injector
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainScreen {
 
     @Inject
     lateinit var mainPresenter: MainPresenter
@@ -25,5 +25,13 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         mainPresenter.detachScreen()
+    }
+
+    override fun showPinnedCryptoCurrencies() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showNetworkError(errorMsg: String) {
+        TODO("Not yet implemented")
     }
 }
