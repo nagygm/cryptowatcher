@@ -6,7 +6,7 @@ import com.nagygm.cryptowatcher.R
 import com.nagygm.cryptowatcher.injector
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainScreen {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainPresenter: MainPresenter
