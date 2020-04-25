@@ -26,4 +26,12 @@ class MainActivity : AppCompatActivity(), MainScreen {
         super.onStop()
         mainPresenter.detachScreen()
     }
+
+    override fun showPinnedCryptoCurrencies() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showNetworkError(errorMsg: String) {
+        TODO("Not yet implemented")
+    }
 }
