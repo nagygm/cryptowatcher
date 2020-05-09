@@ -8,8 +8,8 @@ interface PingApi {
     /**
      * Check API server status
      * Check API server status
-     * @return Call<Void>
-    </Void> */
+     * @return Call&lt;Ping&gt;
+     */
     @GET("ping")
     fun pingGet(): Call<Ping?>?
 }

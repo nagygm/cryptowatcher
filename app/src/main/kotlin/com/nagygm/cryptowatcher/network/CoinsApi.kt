@@ -11,25 +11,17 @@ import retrofit2.http.Query
 
 interface CoinsApi {
     /**
-     * List all supported coins id, name and symbol (no pagination required)
-     * Use this to obtain all the coins&#39; id in order to make API calls
-     * @return Call<CoinList>
-    </Void> */
-    @GET("coins/list")
-    fun coinsListGet(): Call<CoinList?>?
-
-    /**
      * Get current data (name, price, market, ... including exchange tickers) for a coin
-     * Get current data (name, price, market, ... including exchange tickers) for a coin.&lt;br&gt;&lt;br&gt; **IMPORTANT**:\n Ticker object is limited to 100 items, to get more tickers, use `/coins/{id}/tickers`\n Ticker `is_stale` is true when ticker that has not been updated/unchanged from the exchange for a while.\n Ticker `is_anomaly` is true if ticker&#39;s price is outliered by our system.\n You are responsible for managing how you want to display these information (e.g. footnote, different background, change opacity, hide)
-     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin
-     * @param localization Include all localized languages in response (true/false) &lt;b&gt;[default: true]&lt;/b&gt;
-     * @param tickers Include tickers data (true/false) &lt;b&gt;[default: true]&lt;/b&gt;
-     * @param marketData Include market_data (true/false) &lt;b&gt;[default: true]&lt;/b&gt;
-     * @param communityData Include community_data data (true/false) &lt;b&gt;[default: true]&lt;/b&gt;
-     * @param developerData Include developer_data data (true/false) &lt;b&gt;[default: true]&lt;/b&gt;
-     * @param sparkline Include sparkline 7 days data (eg. true, false) &lt;b&gt;[default: false]&lt;/b&gt;
-     * @return Call<CoinFullData>
-    </Void> */
+     * Get current data (name, price, market, ... including exchange tickers) for a coin.&lt;br&gt;&lt;br&gt; **IMPORTANT**:  Ticker object is limited to 100 items, to get more tickers, use &#x60;/coins/{id}/tickers&#x60;  Ticker &#x60;is_stale&#x60; is true when ticker that has not been updated/unchanged from the exchange for a while.  Ticker &#x60;is_anomaly&#x60; is true if ticker&#x27;s price is outliered by our system.  You are responsible for managing how you want to display these information (e.g. footnote, different background, change opacity, hide)
+     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin (required)
+     * @param localization Include all localized languages in response (true/false) &lt;b&gt;[default: true]&lt;/b&gt; (optional)
+     * @param tickers Include tickers data (true/false) &lt;b&gt;[default: true]&lt;/b&gt; (optional)
+     * @param marketData Include market_data (true/false) &lt;b&gt;[default: true]&lt;/b&gt; (optional)
+     * @param communityData Include community_data data (true/false) &lt;b&gt;[default: true]&lt;/b&gt; (optional)
+     * @param developerData Include developer_data data (true/false) &lt;b&gt;[default: true]&lt;/b&gt; (optional)
+     * @param sparkline Include sparkline 7 days data (eg. true, false) &lt;b&gt;[default: false]&lt;/b&gt; (optional)
+     * @return Call&lt;CoinFullData&gt;
+     */
     @GET("coins/{id}")
     fun coinsIdGet(
         @Path("id") id: String?,
@@ -44,11 +36,11 @@ interface CoinsApi {
     /**
      * Get historical data (name, price, market, stats) at a given date for a coin
      * Get historical data (name, price, market, stats) at a given date for a coin
-     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin
-     * @param date The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
-     * @param localization Set to false to exclude localized languages in response
-     * @return Call<CoinHistoryById>
-    </Void> */
+     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin (required)
+     * @param date The date of data snapshot in dd-mm-yyyy eg. 30-12-2017 (required)
+     * @param localization Set to false to exclude localized languages in response (optional)
+     * @return Call&lt;CoinHistoryById&gt;
+     */
     @GET("coins/{id}/history")
     fun coinsIdHistoryGet(
         @Path("id") id: String?,
@@ -58,16 +50,24 @@ interface CoinsApi {
 
     /**
      * Get historical market data include price, market cap, and 24h volume (granularity auto)
-     * Get historical market data include price, market cap, and 24h volume (granularity auto)\n &lt;b&gt;Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.&lt;/b&gt;
-     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin
-     * @param vsCurrency The target currency of market data (usd, eur, jpy, etc.)
-     * @param days Data up to number of days ago (eg. 1,14,30,max)
-     * @return Call<MarketChart>
-    </Void> */
+     * Get historical market data include price, market cap, and 24h volume (granularity auto)  &lt;b&gt;Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.&lt;/b&gt;
+     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin (required)
+     * @param vsCurrency The target currency of market data (usd, eur, jpy, etc.) (required)
+     * @param days Data up to number of days ago (eg. 1,14,30,max) (required)
+     * @return Call&lt;MarketChart&gt;
+     */
     @GET("coins/{id}/market_chart")
     fun coinsIdMarketChartGet(
         @Path("id") id: String?,
         @Query("vs_currency") vsCurrency: String?,
         @Query("days") days: String?
     ): Call<MarketChart?>?
+
+    /**
+     * List all supported coins id, name and symbol (no pagination required)
+     * Use this to obtain all the coins&#x27; id in order to make API calls
+     * @return Call&lt;List&lt;CoinList&gt;&gt;
+     */
+    @GET("coins/list")
+    fun coinsListGet(): Call<List<CoinList?>?>?
 }
