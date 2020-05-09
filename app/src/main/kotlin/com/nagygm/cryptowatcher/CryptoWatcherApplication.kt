@@ -4,10 +4,10 @@ import android.app.Application
 import com.nagygm.cryptowatcher.ui.UIModule
 
 class CryptoWatcherApplication : Application() {
-    lateinit var injector: Injector
+    lateinit var injector: CryptoWatcherApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
-        injector = DaggerInjector.builder().uIModule(UIModule(this)).build()
+        injector = DaggerCryptoWatcherApplicationComponent.builder().uIModule(UIModule(this)).build()
     }
 }

@@ -1,6 +1,7 @@
 package com.nagygm.cryptowatcher.ui
 
 import android.content.Context
+import com.nagygm.cryptowatcher.ui.cryptodetails.CryptoDetailsPresenter
 import com.nagygm.cryptowatcher.ui.main.MainPresenter
 import dagger.Module
 import dagger.Provides
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Module
-class UIModule(private val context: Context) {
+open class UIModule(private val context: Context) {
 
     @Provides
     fun context() = context
@@ -18,6 +19,10 @@ class UIModule(private val context: Context) {
     @Provides
     @Singleton
     fun mainPresenter() = MainPresenter()
+
+    @Provides
+    @Singleton
+    fun cryptoDetailsPresenter() = CryptoDetailsPresenter()
 
     @Provides
     @Singleton

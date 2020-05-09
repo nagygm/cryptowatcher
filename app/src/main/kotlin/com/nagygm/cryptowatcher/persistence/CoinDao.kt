@@ -15,8 +15,16 @@ interface CoinDao {
     fun deleteCoin(alert: Alert)
 
     @Query("select * from coins inner join alerts on coins.id = alerts.coin_id where coins.id = :coinsId ")
-    fun loadCoinWithAlertsById(coinsId : Long) : List<CoinAlerts>
+    @Transaction
+    fun loadCoinWithAlertsById(coinsId : Long) : List<CoinWithAlerts>
 
-    data class CoinAlerts(val coin : Coin, val alerts : List<Alert>)
+    data class CoinWithAlerts (
+        @Embedded var coin: Coin,
+        @Relation(
+            parentColumn = "id",
+            entityColumn = "coin_id"
+        )
+        val alerts: List<Alert>
+    )
 
 }

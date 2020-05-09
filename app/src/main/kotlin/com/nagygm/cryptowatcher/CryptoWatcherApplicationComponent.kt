@@ -9,6 +9,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [UIModule::class, NetworkModule::class, InteractorModule::class])
-interface Injector {
+interface CryptoWatcherApplicationComponent {
     fun inject(mainActivity: MainActivity)
 }
