@@ -1,7 +1,7 @@
-swagger: "2.0"
+openapi: "3.0.0"
 info:
   description: "CoinGecko API for CryptoWatcher, defines the necessary endpoints for the app to work"
-  version: "0.0.1"
+  version: "0.0.2"
   title: "CoinGecko CryptoWatcher"
   termsOfService: "https://www.coingecko.com/en/api_terms"
   contact:
@@ -9,25 +9,25 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "api.coingecko.com"
-basePath: "/api/v3"
-schemes:
-- "https"
+servers:
+  - url: 'https://api.coingecko.com/api/v3'
 paths:
-  '/ping':
+  /ping:
     get:
+      operationId: pingGet
       tags:
         - ping
       summary: Check API server status
       description: |
         Check API server status
-      produces:
-        - application/json
-      parameters: []
       responses:
         '200':
           description: Status OK
-  '/simple/price':
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ping"
+  /simple/price:
     get:
       tags:
         - simple
@@ -35,8 +35,6 @@ paths:
         Get the current price of any cryptocurrencies in any other supported
         currencies that you need.
       description: ''
-      produces:
-        - application/json
       parameters:
         - name: ids
           in: query
@@ -44,7 +42,8 @@ paths:
             id of coins, comma-separated if querying more than 1 coin
              *refers to <b>`coins/list`</b>
           required: true
-          type: string
+          schema:
+            type: string
         - name: vs_currencies
           in: query
           description: >-
@@ -52,54 +51,76 @@ paths:
             vs_currency
              *refers to <b>`simple/supported_vs_currencies`</b>
           required: true
-          type: string
+          schema:
+            type: string
         - name: include_market_cap
           in: query
           description: '<b>true/false</b> to include market_cap, <b>default: false</b>'
           required: false
-          type: string
+          schema:
+            type: string
         - name: include_24hr_vol
           in: query
           description: '<b>true/false</b> to include 24hr_vol, <b>default: false</b>'
           required: false
-          type: string
+          schema:
+            type: string
         - name: include_24hr_change
           in: query
           description: '<b>true/false</b> to include 24hr_change, <b>default: false</b>'
           required: false
-          type: string
+          schema:
+            type: string
         - name: include_last_updated_at
           in: query
           description: >-
             <b>true/false</b> to include last_updated_at of price, <b>default:
             false</b>
           required: false
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: price(s) of cryptocurrency
+          content:
+            application/json:
+              schema:
+                type: 'object'
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                    format: double
   '/simple/supported_vs_currencies':
     get:
       tags:
         - simple
       summary: Get list of supported_vs_currencies.
       description: ''
-      produces:
-        - application/json
       responses:
         '200':
           description: list of supported_vs_currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   '/coins/list':
     get:
       tags:
         - coins
       summary: 'List all supported coins id, name and symbol (no pagination required)'
       description: Use this to obtain all the coins' id in order to make API calls
-      produces:
-        - application/json
       responses:
         '200':
           description: 'List all coins with id, name, and symbol'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CoinList'
   '/coins/{id}':
     get:
       tags:
@@ -114,51 +135,60 @@ paths:
          Ticker `is_stale` is true when ticker that has not been updated/unchanged from the exchange for a while.
          Ticker `is_anomaly` is true if ticker's price is outliered by our system.
          You are responsible for managing how you want to display these information (e.g. footnote, different background, change opacity, hide)
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: pass the coin id (can be obtained from /coins) eg. bitcoin
           required: true
-          type: string
+          schema:
+            type: string
         - name: localization
           in: query
           description: >-
             Include all localized languages in response (true/false)
             <b>[default: true]</b>
           required: false
-          type: string
+          schema:
+            type: string
         - name: tickers
           in: query
           description: 'Include tickers data (true/false) <b>[default: true]</b>'
           required: false
-          type: boolean
+          schema:
+            type: boolean
         - name: market_data
           in: query
           description: 'Include market_data (true/false) <b>[default: true]</b>'
           required: false
-          type: boolean
+          schema:
+            type: boolean
         - name: community_data
           in: query
           description: 'Include community_data data (true/false) <b>[default: true]</b>'
           required: false
-          type: boolean
+          schema:
+            type: boolean
         - name: developer_data
           in: query
           description: 'Include developer_data data (true/false) <b>[default: true]</b>'
           required: false
-          type: boolean
+          schema:
+            type: boolean
         - name: sparkline
           in: query
           description: >-
             Include sparkline 7 days data (eg. true, false) <b>[default:
             false]</b>
           required: false
-          type: boolean
+          schema:
+            type: boolean
       responses:
         '200':
           description: Get current data for a coin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoinFullData'
   '/coins/{id}/history':
     get:
       tags:
@@ -169,27 +199,32 @@ paths:
       description: >
         Get historical data (name, price, market, stats) at a given date for a
         coin
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: pass the coin id (can be obtained from /coins) eg. bitcoin
           required: true
-          type: string
+          schema:
+            type: string
         - name: date
           in: query
           description: The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
           required: true
-          type: string
+          schema:
+            type: string
         - name: localization
           in: query
           description: Set to false to exclude localized languages in response
           required: false
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Get historical data at a given date for a coin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoinHistoryById'
   '/coins/{id}/market_chart':
     get:
       tags:
@@ -201,24 +236,151 @@ paths:
         Get historical market data include price, market cap, and 24h volume
         (granularity auto)
          <b>Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.</b>
-      produces:
-        - application/json
       parameters:
         - name: id
           in: path
           description: pass the coin id (can be obtained from /coins) eg. bitcoin
           required: true
-          type: string
+          schema:
+            type: string
         - name: vs_currency
           in: query
           description: 'The target currency of market data (usd, eur, jpy, etc.)'
           required: true
-          type: string
+          schema:
+            type: string
         - name: days
           in: query
           description: 'Data up to number of days ago (eg. 1,14,30,max)'
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: 'Get historical market data include price, market cap, and 24h volume'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketChart'
+components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CoinGeckoApiError'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CoinGeckoApiError'
+  schemas:
+    CoinGeckoApiError:
+      type: 'object'
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    Ping:
+      type: 'object'
+      properties:
+        gecko_says:
+          type: 'string'
+    MarketChart:
+      type: object
+      properties:
+        prices:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        market_caps:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        total_volumes:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+    CoinFullData:
+      type: object
+      properties:
+        id:
+          type: string
+        symbol:
+          type: string
+        name:
+          type: string
+        image:
+          $ref: '#/components/schemas/Image'
+        last_updated:
+          type: string
+        market_data:
+          $ref: '#/components/schemas/MarketData'
+    CoinHistoryById:
+      type: object
+      properties:
+        id:
+          type: string
+        symbol:
+          type: string
+        name:
+          type: string
+        image:
+          $ref: '#/components/schemas/Image'
+        market_data:
+          $ref: '#/components/schemas/MarketData'
+    CoinList:
+      type: object
+      properties:
+        id:
+          type: string
+        symbol:
+          type: string
+        name:
+          type: string
+    Image:
+      type: object
+      properties:
+        thumb:
+          type: string
+        small:
+          type: string
+        large:
+          type: string
+    MarketData:
+      type: object
+      properties:
+        current_price:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        price_change_percentage_1h_in_currency:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        price_change_percentage_24h_in_currency:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        price_change_percentage_7d_in_currency:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        price_change_percentage_14d_in_currency:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
