@@ -39,11 +39,22 @@ class MainTest {
     }
 
     @Test
+    fun callcoinsIdGetMock() {
+        val result = coinsApi.coinsIdGet("", "",
+            tickers = false,
+            marketData = false,
+            communityData = false,
+            developerData = false,
+            sparkline = false
+        )
+        Assert.assertNotNull(result)
+    }
+
+    @Test
     fun callCoinsIdMarketChartGetMock() {
         val result = coinsApi.coinsIdMarketChartGet("", "", "")
         Assert.assertNotNull(result)
     }
-
 
     @Test
     fun callSimplePriceGetMock() {

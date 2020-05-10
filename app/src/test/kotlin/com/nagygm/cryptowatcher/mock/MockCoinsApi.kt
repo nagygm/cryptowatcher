@@ -16,6 +16,9 @@ class MockCoinsApi : CoinsApi{
         sparkline: Boolean?
     ): Call<CoinFullData?>? {
         val result = CoinFullData()
+        with(result) {
+
+        }
         return MockCall(Response.success(result))
     }
 
