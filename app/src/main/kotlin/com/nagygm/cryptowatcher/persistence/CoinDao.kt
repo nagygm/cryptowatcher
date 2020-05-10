@@ -9,12 +9,15 @@ interface CoinDao {
     fun insertCoin(coin: Coin)
 
     @Update
-    fun updateCoin(alert: Alert)
+    fun updateCoin(coin: Coin)
 
     @Delete
-    fun deleteCoin(alert: Alert)
+    fun deleteCoin(coin: Coin)
 
-    @Query("select * from coins inner join alerts on coins.id = alerts.coin_id where coins.id = :coinsId ")
+    @Query("select * from coins where coins.id = :coinsId ")
+    fun getOnebyId(coinsId: Long) : Coin
+
+    @Query("select * from coins left join alerts on coins.id = alerts.coin_id where coins.id = :coinsId ")
     @Transaction
     fun loadCoinWithAlertsById(coinsId : Long) : List<CoinWithAlerts>
 
