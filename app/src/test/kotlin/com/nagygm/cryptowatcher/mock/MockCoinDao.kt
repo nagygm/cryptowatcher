@@ -9,11 +9,15 @@ class MockCoinDao : CoinDao{
         TODO("Not yet implemented")
     }
 
-    override fun updateCoin(alert: Alert) {
+    override fun updateCoin(coin: Coin) {
         TODO("Not yet implemented")
     }
 
-    override fun deleteCoin(alert: Alert) {
+    override fun deleteCoin(coin: Coin) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getOnebyId(coinsId: Long): Coin {
         TODO("Not yet implemented")
     }
 
