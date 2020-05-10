@@ -26,14 +26,14 @@ class MainTest {
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        val component = DaggerTestCryptoWatcherApplicationComponent.
+        val component : TestCryptoWatcherApplicationComponent? = DaggerTestCryptoWatcherApplicationComponent.
             builder().testModule(TestModule(context)).build()
-        component.inject(this)
+        component?.inject(this)
     }
 
     @Test
     fun addition_isCorrect() {
-        Assert.assertEquals(4, 2 + 2)
+        Assert.assertNotNull(mainPresenter)
     }
 }
 
