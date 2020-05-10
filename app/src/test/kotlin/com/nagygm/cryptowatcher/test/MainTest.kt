@@ -2,10 +2,7 @@ package com.nagygm.cryptowatcher.test
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.nagygm.cryptowatcher.CryptoWatcherApplication
-import com.nagygm.cryptowatcher.DaggerTestCryptoWatcherApplicationComponent
-import com.nagygm.cryptowatcher.TestCryptoWatcherApplicationComponent
-import com.nagygm.cryptowatcher.TestModule
+import com.nagygm.cryptowatcher.*
 import com.nagygm.cryptowatcher.ui.main.MainPresenter
 import org.junit.Assert
 import org.junit.Before
@@ -25,10 +22,7 @@ class MainTest {
 
     @Before
     fun setUp() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val component : TestCryptoWatcherApplicationComponent? = DaggerTestCryptoWatcherApplicationComponent.
-            builder().testModule(TestModule(context)).build()
-        component?.inject(this)
+        testInjector.inject(this)
     }
 
     @Test

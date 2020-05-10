@@ -8,6 +8,7 @@ class CryptoWatcherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        //TODO add workamanger periodic request
         injector = DaggerCryptoWatcherApplicationComponent.builder().uIModule(UIModule(this)).build()
     }
 }
