@@ -1,5 +1,6 @@
 package com.nagygm.cryptowatcher.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.nagygm.cryptowatcher.R
