@@ -1,30 +1,28 @@
-package com.nagygm.cryptowatcher.ui
+package com.nagygm.cryptowatcher
 
 import android.content.Context
 import com.nagygm.cryptowatcher.ui.cryptodetails.CryptoDetailsPresenter
 import com.nagygm.cryptowatcher.ui.main.MainPresenter
+import com.nagygm.cryptowatcher.utils.UiExecutor
 import dagger.Module
 import dagger.Provides
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Singleton
 
-
 @Module
-open class UIModule(private val context: Context) {
-
+class TestModule(private val context: Context) {
     @Provides
-    fun context() = context
-
-    @Provides
-    @Singleton
-    fun mainPresenter() = MainPresenter()
+    fun provideContext() = context
 
     @Provides
     @Singleton
-    fun cryptoDetailsPresenter() = CryptoDetailsPresenter()
+    fun provideMainPresenter() = MainPresenter()
 
     @Provides
     @Singleton
-    fun networkExecutor(): Executor = Executors.newFixedThreadPool(1)
+    fun provideCryptoDetailsPresenter() = CryptoDetailsPresenter()
+
+    @Provides
+    @Singleton
+    fun provideNetworkExecutor(): Executor = UiExecutor()
 }
