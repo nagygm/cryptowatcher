@@ -1,7 +1,6 @@
 package com.nagygm.cryptowatcher.network
 
 import com.nagygm.cryptowatcher.model.CoinFullData
-import com.nagygm.cryptowatcher.model.CoinHistoryById
 import com.nagygm.cryptowatcher.model.CoinList
 import com.nagygm.cryptowatcher.model.MarketChart
 import retrofit2.Call
@@ -32,21 +31,6 @@ interface CoinsApi {
         @Query("developer_data") developerData: Boolean?,
         @Query("sparkline") sparkline: Boolean?
     ): Call<CoinFullData?>?
-
-    /**
-     * Get historical data (name, price, market, stats) at a given date for a coin
-     * Get historical data (name, price, market, stats) at a given date for a coin
-     * @param id pass the coin id (can be obtained from /coins) eg. bitcoin (required)
-     * @param date The date of data snapshot in dd-mm-yyyy eg. 30-12-2017 (required)
-     * @param localization Set to false to exclude localized languages in response (optional)
-     * @return Call&lt;CoinHistoryById&gt;
-     */
-    @GET("coins/{id}/history")
-    fun coinsIdHistoryGet(
-        @Path("id") id: String?,
-        @Query("date") date: String?,
-        @Query("localization") localization: String?
-    ): Call<CoinHistoryById?>?
 
     /**
      * Get historical market data include price, market cap, and 24h volume (granularity auto)

@@ -1,11 +1,9 @@
 package com.nagygm.cryptowatcher.mock
 
-import com.nagygm.cryptowatcher.model.CoinFullData
-import com.nagygm.cryptowatcher.model.CoinHistoryById
-import com.nagygm.cryptowatcher.model.CoinList
-import com.nagygm.cryptowatcher.model.MarketChart
+import com.nagygm.cryptowatcher.model.*
 import com.nagygm.cryptowatcher.network.CoinsApi
 import retrofit2.Call
+import retrofit2.Response
 
 class MockCoinsApi : CoinsApi{
     override fun coinsIdGet(
@@ -17,15 +15,8 @@ class MockCoinsApi : CoinsApi{
         developerData: Boolean?,
         sparkline: Boolean?
     ): Call<CoinFullData?>? {
-        TODO("Not yet implemented")
-    }
-
-    override fun coinsIdHistoryGet(
-        id: String?,
-        date: String?,
-        localization: String?
-    ): Call<CoinHistoryById?>? {
-        TODO("Not yet implemented")
+        val result = CoinFullData()
+        return MockCall(Response.success(result))
     }
 
     override fun coinsIdMarketChartGet(
@@ -33,10 +24,17 @@ class MockCoinsApi : CoinsApi{
         vsCurrency: String?,
         days: String?
     ): Call<MarketChart?>? {
-        TODO("Not yet implemented")
+        val result = MarketChart()
+        with(result) {
+            prices(mutableListOf(listOf("1588964976605", "0.0012535175162226733")))
+            marketCaps(mutableListOf(listOf("1588964976605","13765.521041834398")))
+            totalVolumes(mutableListOf(listOf("1588964976605", "1432.529773809611")))
+        }
+        return MockCall(Response.success(result))
     }
 
     override fun coinsListGet(): Call<List<CoinList?>?>? {
-        TODO("Not yet implemented")
+        val coinListResult = listOf(CoinList().id("01coin").name("zoc").symbol("01coin")) as List<CoinList?>?
+        return MockCall(Response.success(coinListResult))
     }
 }

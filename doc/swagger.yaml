@@ -189,42 +189,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CoinFullData'
-  '/coins/{id}/history':
-    get:
-      tags:
-        - coins
-      summary: >-
-        Get historical data (name, price, market, stats) at a given date for a
-        coin
-      description: >
-        Get historical data (name, price, market, stats) at a given date for a
-        coin
-      parameters:
-        - name: id
-          in: path
-          description: pass the coin id (can be obtained from /coins) eg. bitcoin
-          required: true
-          schema:
-            type: string
-        - name: date
-          in: query
-          description: The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
-          required: true
-          schema:
-            type: string
-        - name: localization
-          in: query
-          description: Set to false to exclude localized languages in response
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Get historical data at a given date for a coin
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CoinHistoryById'
+
   '/coins/{id}/market_chart':
     get:
       tags:
@@ -323,19 +288,6 @@ components:
           $ref: '#/components/schemas/Image'
         last_updated:
           type: string
-        market_data:
-          $ref: '#/components/schemas/MarketData'
-    CoinHistoryById:
-      type: object
-      properties:
-        id:
-          type: string
-        symbol:
-          type: string
-        name:
-          type: string
-        image:
-          $ref: '#/components/schemas/Image'
         market_data:
           $ref: '#/components/schemas/MarketData'
     CoinList:
