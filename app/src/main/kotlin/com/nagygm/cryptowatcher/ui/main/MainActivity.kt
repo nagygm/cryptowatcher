@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
 import com.nagygm.cryptowatcher.R
 import com.nagygm.cryptowatcher.injector
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity(), MainScreen {
         injector.inject(this)
 
 
-        crash_btn.setOnClickListener { throw RuntimeException("I said it will crush!") }
+        crash_btn.setOnClickListener {
+            FirebaseCrashlytics.getInstance().log("IT IS GONNA CRAAAASH!!!")
+            throw RuntimeException("I said it will crush!") }
         analytics_btn.setOnClickListener {
             val bundle = Bundle()
             with(bundle) {
