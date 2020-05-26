@@ -1,6 +1,9 @@
 package com.nagygm.cryptowatcher.ui.main
 
+import com.nagygm.cryptowatcher.persistence.CoinDao
+
 interface MainScreen {
-    fun showPinnedCryptoCurrencies()
-    fun showNetworkError(errorMsg: String)
+    fun showCryptoCurrencyDetails(position: Int, id: Long)
+    fun showError(errorMsg: String)
+    fun showPinnedCryptoCurrencies(coins: MutableList<CoinDao.CoinWithAlerts>)
 }

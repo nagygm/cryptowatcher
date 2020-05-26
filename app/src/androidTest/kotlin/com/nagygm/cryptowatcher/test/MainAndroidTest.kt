@@ -83,4 +83,19 @@ class MainAndroidTest {
         assertThat(coinWithAlerts[0].alerts[0], equalTo(alert))
 
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun getCoinsWithAlerts() {
+        val coin: Coin = Coin(1, "eth", "eth", "Etherum", "eur", "anuuid", 111.0)
+        val coin2: Coin = Coin(2, "eth", "eth", "Etherum", "eur", "anuuid", 111.0)
+        val alert : Alert = Alert(1, 1.0, true, coin.id)
+        coinDao.insertCoin(coin)
+        alertDao.insertAlert(alert)
+        val coinWithAlerts = coinDao.loadCoinsWithAlerts()
+        assertThat(coinWithAlerts[0].coin, equalTo(coin))
+        assertThat(coinWithAlerts[0].alerts[0], equalTo(alert))
+        assertThat(coinWithAlerts.size, equalTo(2))
+
+    }
 }

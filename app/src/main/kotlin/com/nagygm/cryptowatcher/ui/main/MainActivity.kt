@@ -1,15 +1,11 @@
 package com.nagygm.cryptowatcher.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.crashlytics.internal.common.CrashlyticsCore
 import com.nagygm.cryptowatcher.R
 import com.nagygm.cryptowatcher.injector
-import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.RuntimeException
+import com.nagygm.cryptowatcher.persistence.CoinDao
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainScreen {
@@ -25,19 +21,7 @@ class MainActivity : AppCompatActivity(), MainScreen {
         setContentView(R.layout.activity_main)
         injector.inject(this)
 
-
-        crash_btn.setOnClickListener {
-            FirebaseCrashlytics.getInstance().log("IT IS GONNA CRAAAASH!!!")
-            throw RuntimeException("I said it will crush!") }
-        analytics_btn.setOnClickListener {
-            val bundle = Bundle()
-            with(bundle) {
-                putString(FirebaseAnalytics.Param.ITEM_ID, "1")
-                putString(FirebaseAnalytics.Param.ITEM_NAME, "An achievement.")
-                putString(FirebaseAnalytics.Param.CONTENT_TYPE, "You successfully reached the google analytics page!")
-            }
-            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle)
-        }
+        showPinnedCryptoCurrencies(mutableListOf())
     }
 
     override fun onStart() {
@@ -50,11 +34,15 @@ class MainActivity : AppCompatActivity(), MainScreen {
         mainPresenter.detachScreen()
     }
 
-    override fun showPinnedCryptoCurrencies() {
+    override fun showPinnedCryptoCurrencies(coins: MutableList<CoinDao.CoinWithAlerts>) {
+        mainPresenter.showPinnedCryptoCurrencies()
+    }
+
+    override fun showCryptoCurrencyDetails(position: Int, id: Long) {
         TODO("Not yet implemented")
     }
 
-    override fun showNetworkError(errorMsg: String) {
+    override fun showError(errorMsg: String) {
         TODO("Not yet implemented")
     }
 }
