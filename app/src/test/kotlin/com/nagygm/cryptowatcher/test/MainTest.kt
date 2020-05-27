@@ -68,5 +68,10 @@ class MainTest {
         val result = simpleApi.simpleSupportedVsCurrenciesGet()
         Assert.assertNotNull(result)
     }
+
+    @Test
+    fun callInteractor() {
+
+    }
 }
 

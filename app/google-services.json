@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "107325399006",
+    "firebase_url": "https://gerg-nagy.firebaseio.com",
+    "project_id": "gerg-nagy",
+    "storage_bucket": "gerg-nagy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107325399006:android:f87f0ce184514a4c33074f",
+        "android_client_info": {
+          "package_name": "com.nagygm.cryptowatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107325399006-co5dk6oaukfub04fvv4ccn7jd2forhe4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_TblBiIPpe-iPVN0q5Jg4SrK4EVYqnX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107325399006-co5dk6oaukfub04fvv4ccn7jd2forhe4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

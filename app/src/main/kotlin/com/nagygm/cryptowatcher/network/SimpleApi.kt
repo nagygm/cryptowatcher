@@ -24,7 +24,7 @@ interface SimpleApi {
         @Query("include_24hr_vol") include24hrVol: String?,
         @Query("include_24hr_change") include24hrChange: String?,
         @Query("include_last_updated_at") includeLastUpdatedAt: String?
-    ): Call<Map<String?, Map<String?, Double?>?>?>?
+    ): Call<Map<String, Map<String, Double>>>
 
     /**
      * Get list of supported_vs_currencies.

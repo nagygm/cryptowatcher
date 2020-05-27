@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">cryptowatcher</string>
+    <string name="gonna_crash_this">Gonna Crash This</string>
+    <string name="giveanalytics">GiveAnalytics</string>
+    <string name="noDataText">There are no pinned crypto currencies</string>
+    <string name="name">Name</string>
+    <string name="current_price">Current price</string>
+    <string name="alertValue">1000</string>
+
 </resources>

@@ -1,6 +1,9 @@
 package com.nagygm.cryptowatcher.ui
 
+import android.app.Application
 import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.nagygm.cryptowatcher.interactor.main.MainInteractor
 import com.nagygm.cryptowatcher.ui.cryptodetails.CryptoDetailsPresenter
 import com.nagygm.cryptowatcher.ui.main.MainPresenter
 import dagger.Module
@@ -18,7 +21,12 @@ open class UIModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun mainPresenter() = MainPresenter()
+    open fun provideContext(application: Application?): Context? {
+        return application
+    }
+    @Provides
+    @Singleton
+    fun mainPresenter(executor: Executor, mainInteractor: MainInteractor) = MainPresenter(executor, mainInteractor)
 
     @Provides
     @Singleton
@@ -27,4 +35,9 @@ open class UIModule(private val context: Context) {
     @Provides
     @Singleton
     fun networkExecutor(): Executor = Executors.newFixedThreadPool(1)
+
+    @Provides
+    @Singleton
+    fun firebaseAnalytics() = FirebaseAnalytics.getInstance(context)
+
 }
