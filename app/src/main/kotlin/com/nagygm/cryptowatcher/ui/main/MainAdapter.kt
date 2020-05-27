@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nagygm.cryptowatcher.R
 import com.nagygm.cryptowatcher.persistence.CoinDao
 import kotlinx.android.synthetic.main.content_pinned_crypto_currencies.view.*
 
+
 class MainAdapter constructor(
     private val context: Context,
-    private var coins: List<CoinDao.CoinWithAlerts>,
-    private var coinData: Map<String, Map<String, Double>>) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+    private var coins: MutableList<CoinDao.CoinWithAlerts>) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -33,20 +34,24 @@ class MainAdapter constructor(
             }
         }
 
-        var currentPrice = coinData[coin.coin.externalId]?.get(coin.coin.vsCurrency)
+        val currentPrice = coin.coin.lastValue
 
-        holder.name.text = coin.coin.name
+        holder.name.text = coin.coin.name.plus('/').plus(coin.coin.vsCurrency)
 
-        holder.currentPrice.text = currentPrice?.toBigDecimal()?.toPlainString()
+        holder.currentPrice.text = currentPrice.toBigDecimal().toPlainString()
 
-        holder.alertTop.text =
-            coin.alerts.first { it.isUpperBound }.boundValue.toBigDecimal().toPlainString()
+        if(coin.alerts.isNotEmpty()) {
+            holder.alertTop.text =
+                coin.alerts.first { it.isUpperBound }.boundValue.toBigDecimal().toPlainString()
 
-        holder.alertBottom.text =
-            coin.alerts.first { !it.isUpperBound }.boundValue.toBigDecimal().toPlainString()
+            holder.alertBottom.text =
+                coin.alerts.first { !it.isUpperBound }.boundValue.toBigDecimal().toPlainString()
+        }
     }
 
-    override fun getItemCount() = coins.size
+    override fun getItemCount(): Int {
+        return coins.size
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var coinImage: ImageView = view.coinImage
@@ -54,6 +59,22 @@ class MainAdapter constructor(
         var currentPrice: TextView = view.pcCurrentPrice
         var alertTop: TextView = view.pcAlertTop
         var alertBottom: TextView = view.pcAlertBottom
+    }
+
+    fun updateData(coins: MutableList<CoinDao.CoinWithAlerts>) {
+        this.coins.clear()
+        this.coins.addAll(coins)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(position: Int, coin: CoinDao.CoinWithAlerts) {
+        this.coins.add(position, coin)
+        notifyItemInserted(position)
+    }
+
+    fun removeItem(position: Int) {
+        coins.removeAt(position)
+        notifyItemRemoved(position)
     }
 
 }

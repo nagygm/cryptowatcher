@@ -1,7 +1,10 @@
 package com.nagygm.cryptowatcher.ui.main
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nagygm.cryptowatcher.CryptoWatcherApplication
 import com.nagygm.cryptowatcher.CryptoWatcherApplicationComponent
@@ -14,7 +17,8 @@ class MainActivity : AppCompatActivity(), MainScreen {
     @Inject
     lateinit var mainPresenter: MainPresenter
 
-    private var artistsAdapter: MainAdapter? = null
+    private var mainAdapter: MainAdapter? = null
+    private var coins: MutableList<CoinDao.CoinWithAlerts> = mutableListOf()
 
     private val injector: CryptoWatcherApplicationComponent
         get() {
@@ -26,14 +30,19 @@ class MainActivity : AppCompatActivity(), MainScreen {
         setContentView(R.layout.activity_main)
         injector.inject(this)
 
-        showPinnedCryptoCurrencies(mutableListOf())
+        mainPresenter.showPinnedCryptoCurrencies()
 
-        floatingActionButton.setOnClickListener { view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show() }
+        floatingActionButton.setOnClickListener { view ->
+            Snackbar.make(
+                view,
+                "Replace with your own action",
+                Snackbar.LENGTH_LONG
+            ).setAction("Action", null).show()
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        mainPresenter.attachScreen(this)
     }
 
     override fun onStop() {
@@ -41,8 +50,35 @@ class MainActivity : AppCompatActivity(), MainScreen {
         mainPresenter.detachScreen()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainPresenter.attachScreen(this)
+        val llm = LinearLayoutManager(this.applicationContext)
+        llm.orientation = LinearLayoutManager.VERTICAL
+        recyclerViewPinnedCryptoCurrencies.layoutManager = llm
+        mainAdapter = MainAdapter(this.applicationContext, coins)
+        recyclerViewPinnedCryptoCurrencies.adapter = mainAdapter
+    }
+
+    override fun onPause() {
+        mainPresenter.detachScreen()
+        super.onPause()
+    }
+
     override fun showPinnedCryptoCurrencies(coins: MutableList<CoinDao.CoinWithAlerts>) {
-        mainPresenter.showPinnedCryptoCurrencies()
+        swipeRefreshLayoutMain.isRefreshing = false
+        this.coins.clear()
+        this.coins.addAll(coins)
+
+        mainAdapter?.updateData(coins)
+
+        if (this.coins.isEmpty()) {
+            recyclerViewPinnedCryptoCurrencies.visibility = View.GONE
+            emptyTextView.visibility = View.VISIBLE
+        } else {
+            recyclerViewPinnedCryptoCurrencies.visibility = View.VISIBLE
+            emptyTextView.visibility = View.GONE
+        }
     }
 
     override fun showCryptoCurrencyDetails(position: Int, id: Long) {
@@ -50,6 +86,6 @@ class MainActivity : AppCompatActivity(), MainScreen {
     }
 
     override fun showError(errorMsg: String) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+        Toast.makeText(this.applicationContext, errorMsg, Toast.LENGTH_LONG).show()
     }
 }
