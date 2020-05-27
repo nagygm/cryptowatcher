@@ -1,6 +1,7 @@
 package com.nagygm.cryptowatcher
 
 import android.content.Context
+import com.nagygm.cryptowatcher.interactor.main.MainInteractor
 import com.nagygm.cryptowatcher.ui.UIModule
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,7 @@ class AndroidTestModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideMainPresenter() = uiModule.mainPresenter()
+    fun provideMainPresenter(executor: Executor, mainInteractor: MainInteractor) = uiModule.mainPresenter(executor, mainInteractor)
 
     @Provides
     @Singleton
