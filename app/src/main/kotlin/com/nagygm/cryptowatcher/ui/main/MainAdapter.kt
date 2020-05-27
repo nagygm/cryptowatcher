@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nagygm.cryptowatcher.R
-import com.nagygm.cryptowatcher.persistence.CoinDao
+import com.nagygm.cryptowatcher.model.CoinWithAllAlerts
 import kotlinx.android.synthetic.main.content_pinned_crypto_currencies.view.*
 
 
 class MainAdapter constructor(
     private val context: Context,
-    private var coins: MutableList<CoinDao.CoinWithAlerts>) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+    private var coins: MutableList<CoinWithAllAlerts>) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -61,13 +60,11 @@ class MainAdapter constructor(
         var alertBottom: TextView = view.pcAlertBottom
     }
 
-    fun updateData(coins: MutableList<CoinDao.CoinWithAlerts>) {
-        this.coins.clear()
-        this.coins.addAll(coins)
+    fun updateData(coins: MutableList<CoinWithAllAlerts>) {
         notifyDataSetChanged()
     }
 
-    fun addItem(position: Int, coin: CoinDao.CoinWithAlerts) {
+    fun addItem(position: Int, coin: CoinWithAllAlerts) {
         this.coins.add(position, coin)
         notifyItemInserted(position)
     }
@@ -75,6 +72,6 @@ class MainAdapter constructor(
     fun removeItem(position: Int) {
         coins.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, coins.size);
     }
-
 }

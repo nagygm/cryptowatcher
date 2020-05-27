@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="crypto_curr_array">
+        <item>BTC/USD</item>
+        <item>ETH/EUR</item>
+        <item>ETH/HUF</item>
+        <item>BTC/HUF</item>
+        <item>BTC/ETH</item>
+    </string-array>
+</resources>

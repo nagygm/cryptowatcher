@@ -36,12 +36,13 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#FFFFFF">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefreshLayoutMain"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="#FFFFFF">
 
@@ -50,6 +51,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <Spinner
+                    android:id="@+id/currency_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/emptyTextView"
                     android:layout_width="wrap_content"
@@ -65,7 +70,9 @@
                 android:layout_gravity="bottom|end"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@android:drawable/ic_menu_add" />
+                android:background="#FFFFFF"
+                android:layout_margin="16dp"
+                android:src="@android:drawable/ic_input_add" />
         </LinearLayout>
     </FrameLayout>
 

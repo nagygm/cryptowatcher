@@ -2,23 +2,27 @@ package com.nagygm.cryptowatcher.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nagygm.cryptowatcher.CryptoWatcherApplication
 import com.nagygm.cryptowatcher.CryptoWatcherApplicationComponent
 import com.nagygm.cryptowatcher.R
-import com.nagygm.cryptowatcher.persistence.CoinDao
+import com.nagygm.cryptowatcher.model.CoinWithAllAlerts
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainScreen {
+class MainActivity : AppCompatActivity(), MainScreen, AdapterView.OnItemSelectedListener,
+    SwipeRefreshLayout.OnRefreshListener {
     @Inject
     lateinit var mainPresenter: MainPresenter
 
     private var mainAdapter: MainAdapter? = null
-    private var coins: MutableList<CoinDao.CoinWithAlerts> = mutableListOf()
+    private var coins: MutableList<CoinWithAllAlerts> = mutableListOf()
 
     private val injector: CryptoWatcherApplicationComponent
         get() {
@@ -30,15 +34,28 @@ class MainActivity : AppCompatActivity(), MainScreen {
         setContentView(R.layout.activity_main)
         injector.inject(this)
 
-        mainPresenter.showPinnedCryptoCurrencies()
 
-        floatingActionButton.setOnClickListener { view ->
-            Snackbar.make(
-                view,
-                "Replace with your own action",
-                Snackbar.LENGTH_LONG
-            ).setAction("Action", null).show()
+        val spinner: Spinner = findViewById(R.id.currency_spinner)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.crypto_curr_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
         }
+
+        val refreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutMain)
+        refreshLayout.setOnRefreshListener(this)
+
+        mainPresenter.showPinnedCryptoCurrencies()
+        floatingActionButton.setOnClickListener { view ->
+            mainPresenter.pinCoin()
+        }
+
+
     }
 
     override fun onStart() {
@@ -65,12 +82,12 @@ class MainActivity : AppCompatActivity(), MainScreen {
         super.onPause()
     }
 
-    override fun showPinnedCryptoCurrencies(coins: MutableList<CoinDao.CoinWithAlerts>) {
+    override fun showPinnedCryptoCurrencies(coins: MutableList<CoinWithAllAlerts>) {
         swipeRefreshLayoutMain.isRefreshing = false
         this.coins.clear()
         this.coins.addAll(coins)
 
-        mainAdapter?.updateData(coins)
+        mainAdapter?.updateData(this.coins)
 
         if (this.coins.isEmpty()) {
             recyclerViewPinnedCryptoCurrencies.visibility = View.GONE
@@ -87,5 +104,17 @@ class MainActivity : AppCompatActivity(), MainScreen {
 
     override fun showError(errorMsg: String) {
         Toast.makeText(this.applicationContext, errorMsg, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRefresh() {
+        mainPresenter.showPinnedCryptoCurrencies()
     }
 }

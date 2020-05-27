@@ -25,6 +25,9 @@ interface CoinDao {
     @Transaction
     fun loadCoinsWithAlerts() : List<CoinWithAlerts>
 
+    @Query("select * from coins ")
+    fun loadAll() : List<Coin>
+
     data class CoinWithAlerts (
         @Embedded var coin: Coin,
         @Relation(

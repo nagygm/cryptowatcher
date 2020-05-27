@@ -2,6 +2,7 @@ package com.nagygm.cryptowatcher.ui.main
 
 import com.nagygm.cryptowatcher.interactor.main.MainInteractor
 import com.nagygm.cryptowatcher.interactor.main.event.GetPinnedCryptoCurrencies
+import com.nagygm.cryptowatcher.model.CoinWithAllAlerts
 import com.nagygm.cryptowatcher.persistence.CoinDao
 import com.nagygm.cryptowatcher.ui.Presenter
 import org.greenrobot.eventbus.EventBus
@@ -32,6 +33,12 @@ class MainPresenter @Inject constructor(
         }
     }
 
+    fun pinCoin() {
+        executor.execute {
+            mainInteractor.pinCoin()
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventMainThread(event: GetPinnedCryptoCurrencies) {
         if (event.throwable != null) {
@@ -41,7 +48,7 @@ class MainPresenter @Inject constructor(
             }
         } else {
             if (screen != null && event.coins.isNotEmpty()) {
-                screen?.showPinnedCryptoCurrencies(event.coins as MutableList<CoinDao.CoinWithAlerts>)
+                screen?.showPinnedCryptoCurrencies(event.coins as MutableList<CoinWithAllAlerts>)
             }
         }
     }

@@ -28,4 +28,8 @@ class MockCoinDao : CoinDao{
     override fun loadCoinsWithAlerts(): List<CoinDao.CoinWithAlerts> {
         TODO("Not yet implemented")
     }
+
+    override fun loadAll(): List<Coin> {
+        TODO("Not yet implemented")
+    }
 }
