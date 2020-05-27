@@ -1,6 +1,7 @@
 package com.nagygm.cryptowatcher
 
 import android.app.Application
+import com.nagygm.cryptowatcher.persistence.PersitenceModule
 import com.nagygm.cryptowatcher.ui.UIModule
 
 class CryptoWatcherApplication : Application() {
@@ -9,6 +10,9 @@ class CryptoWatcherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         //TODO add workamanger periodic request
-        injector = DaggerCryptoWatcherApplicationComponent.builder().uIModule(UIModule(this)).build()
+        injector = DaggerCryptoWatcherApplicationComponent.builder()
+            .persitenceModule(PersitenceModule(this))
+            .uIModule(UIModule(this))
+            .build()
     }
 }

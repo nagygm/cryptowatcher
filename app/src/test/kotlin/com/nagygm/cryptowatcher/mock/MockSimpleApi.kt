@@ -12,8 +12,8 @@ class MockSimpleApi : SimpleApi{
         include24hrVol: String?,
         include24hrChange: String?,
         includeLastUpdatedAt: String?
-    ): Call<Map<String?, Map<String?, Double?>?>?>? {
-        val result = mapOf("01coin" to mapOf("eur" to 0.00102403)) as Map<String?, Map<String?, Double?>?>?
+    ): Call<Map<String, Map<String, Double>>> {
+        val result = mapOf("01coin" to mapOf("eur" to 0.00102403)) as Map<String, Map<String, Double>>
         return MockCall(Response.success(result))
     }
 

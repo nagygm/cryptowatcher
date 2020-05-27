@@ -11,10 +11,10 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class AndroidTestPersistenceModule {
+class AndroidTestPersistenceModule() {
     lateinit var db: CryptoWatcherDatabase
 
-    fun AndroidTestPersistenceModule() {
+    init {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, CryptoWatcherDatabase::class.java

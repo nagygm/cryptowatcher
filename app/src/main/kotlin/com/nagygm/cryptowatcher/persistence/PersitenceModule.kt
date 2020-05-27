@@ -8,12 +8,8 @@ import javax.inject.Singleton
 
 
 @Module
-class PersitenceModule {
-    lateinit var db: CryptoWatcherDatabase
-
-    fun PersitenceModule(application: Application) {
-        CryptoWatcherDatabase.getInstance(application.applicationContext)
-    }
+class PersitenceModule(application: Application) {
+    var db: CryptoWatcherDatabase = CryptoWatcherDatabase.getInstance(application.applicationContext)
 
     @Singleton
     @Provides
@@ -23,14 +19,14 @@ class PersitenceModule {
 
     @Singleton
     @Provides
-    fun providesProductDao(database: CryptoWatcherDatabase): CoinDao {
-        return database.coinDao()
+    fun providesAlertDao(database: CryptoWatcherDatabase): AlertDao {
+        return database.alertDao()
     }
 
     @Singleton
     @Provides
-    fun productCoinDao(database: CryptoWatcherDatabase): AlertDao {
-        return database.alertDao()
+    fun providesCoinDao(database: CryptoWatcherDatabase): CoinDao {
+        return database.coinDao()
     }
 
 }

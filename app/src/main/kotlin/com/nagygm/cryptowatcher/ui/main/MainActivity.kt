@@ -2,19 +2,24 @@ package com.nagygm.cryptowatcher.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.android.material.snackbar.Snackbar
+import com.nagygm.cryptowatcher.CryptoWatcherApplication
+import com.nagygm.cryptowatcher.CryptoWatcherApplicationComponent
 import com.nagygm.cryptowatcher.R
-import com.nagygm.cryptowatcher.injector
 import com.nagygm.cryptowatcher.persistence.CoinDao
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainScreen {
-
     @Inject
     lateinit var mainPresenter: MainPresenter
 
-    @Inject
-    lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var artistsAdapter: MainAdapter? = null
+
+    private val injector: CryptoWatcherApplicationComponent
+        get() {
+            return (this.applicationContext as CryptoWatcherApplication).injector
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +27,8 @@ class MainActivity : AppCompatActivity(), MainScreen {
         injector.inject(this)
 
         showPinnedCryptoCurrencies(mutableListOf())
+
+        floatingActionButton.setOnClickListener { view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show() }
     }
 
     override fun onStart() {
@@ -43,6 +50,6 @@ class MainActivity : AppCompatActivity(), MainScreen {
     }
 
     override fun showError(errorMsg: String) {
-        TODO("Not yet implemented")
+//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
     }
 }

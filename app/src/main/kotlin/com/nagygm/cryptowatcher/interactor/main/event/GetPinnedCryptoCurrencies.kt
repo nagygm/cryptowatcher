@@ -7,5 +7,5 @@ data class GetPinnedCryptoCurrencies (
     var coins: List<CoinDao.CoinWithAlerts> = emptyList(),
     var throwable: Throwable? = null,
     var code: Int? = null,
-    var networkData: Map<String, Map<String, Double>> = emptyMap()
+    var networkData: Map<String, Map<String, Double>>? = emptyMap()
 )
